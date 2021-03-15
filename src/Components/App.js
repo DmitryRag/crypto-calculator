@@ -11,9 +11,8 @@ function App() {
     const [coinsToday, setCoinsToday] = useState(0)
     const [profit, setProfit] = useState(0)
 
-    /* 28-04-2013 */
     useEffect(() => {
-        axios.get('https://api.coingecko.com/api/v3/coins/bitcoin/history?date=28-04-2013')
+        axios.get('https://api.coingecko.com/api/v3/coins/ethereum/history?date=07-08-2015')
         .then(res => {
             setCoin(res.data.market_data.current_price.rub)
         })
@@ -21,7 +20,7 @@ function App() {
     }, [])
 
     useEffect(() => {
-        axios.get('https://api.coingecko.com/api/v3/coins/bitcoin/history?date=11-03-2021')
+        axios.get(`https://api.coingecko.com/api/v3/coins/ethereum/history?date=${today}`)
         .then(res => {
             setCoinToday(res.data.market_data.current_price.rub)
         })
@@ -33,7 +32,6 @@ function App() {
         setAmount(amount + 1)
         setCoins(coins + coin)
         setCoinsToday(coinsToday + coinToday)
-
     }
 
     function handleMinusClick(e) {
@@ -61,46 +59,36 @@ function App() {
             <div className='coin__container'>
                 <h1 className='coin__title'>Search a currency</h1>
                 <form className='coin__form'>
-                <div className='coin__input-cryptoname__container'>
-                    <label className='coin__input-cryptoname-title'>название криптовалюты:</label>
-                    <input className='coin__input-cryptoname'/>
-                </div>
-
-                <div className='coin__input-cryptoname__container'>
-                    <label className='coin__input-cryptoname-title'>дата покупки:</label>
-                    <input className='coin__input-cryptoname'/>
-                </div>
-
-                <div className='coin__amount_container'>
-                    <div className='coin__amount'>
-                        <p className='coin__crypto_amount'>ед криптовалюты:</p>
-                        <div className='coin__container-section'>
-                            <p className='coin__crypto_amount-value'>{amount}</p>
-                            <p className='coin__crypto_amount-value-v'>{parseFloat(coin).toFixed()}&#8381;</p>
+                    <div className='coin__input-cryptoname__container'>
+                        <label className='coin__input-cryptoname-title'>название криптовалюты:</label>
+                        <input className='coin__input-cryptoname'/>
+                    </div>
+                    <div className='coin__input-cryptoname__container'>
+                        <label className='coin__input-cryptoname-title'>дата покупки:</label>
+                        <input className='coin__input-cryptoname'/>
+                    </div>
+                    <div className='coin__amount_container'>
+                        <div className='coin__amount'>
+                            <p className='coin__crypto_amount'>ед криптовалюты:</p>
+                            <div className='coin__container-section'>
+                                <p className='coin__crypto_amount-value'>{amount}</p>
+                                <p className='coin__crypto_amount-value-v'>{parseFloat(coin).toFixed()}&#8381;</p>
+                            </div>
+                        </div>
+                        <div className='coin__amount-btn'>
+                            <button className='coin__amount_plus coin__btn' onClick={handlePlusClick}>+</button>
+                            <button className='coin__amount_minus coin__btn' onClick={handleMinusClick}>-</button>
                         </div>
                     </div>
-                    
-                    <div className='coin__amount-btn'>
-                        <button className='coin__amount_plus coin__btn' onClick={handlePlusClick}>+</button>
-                        <button className='coin__amount_minus coin__btn' onClick={handleMinusClick}>-</button>
+                    <div className='coin__total-container'>
+                        <p className='coin__crypto_total-value-title'>Итого: </p>
+                        <p className='coin__crypto_total-value-price'>{parseFloat(coins).toFixed()} &#8381;</p>
                     </div>
-                </div>
-                <div className='coin__total-container'>
-                    <p className='coin__crypto_total-value-title'>Итого: </p>
-                    <p className='coin__crypto_total-value-price'>{parseFloat(coins).toFixed()} &#8381;</p>
-                </div>
-                <div className='coin__total-container'>
-                    <p className='coin__crypto_total-title'>Разница: </p>
-                    <p className='coin__crypto_total-price'>{new Intl.NumberFormat('ru-RU').format(parseFloat(profit).toFixed())} &#8381;</p>
-                </div>
-
-                <button className='coin__form-submit' onClick={handleProfitClick}>total</button>
-                {/* <p className='coin__crypto_value-today'>курс: {new Intl.NumberFormat('ru-RU').format(parseFloat(coinToday).toFixed())} &#8381;</p> */}
-                    
-                    
-                    {/* <p className='coin__crypto_total-value-today'>цена битков сегодня: </p>
-                    <p className='coin__crypto_total-value-today'>{new Intl.NumberFormat('ru-RU').format(parseFloat(coinsToday).toFixed())} &#8381;</p> */}
-                    
+                    <div className='coin__total-container'>
+                        <p className='coin__crypto_total-title'>Разница: </p>
+                        <p className='coin__crypto_total-price'>{new Intl.NumberFormat('ru-RU').format(parseFloat(profit).toFixed())} &#8381;</p>
+                    </div>
+                    <button className='coin__form-submit' onClick={handleProfitClick}>total</button>
                 </form>
             </div>
         </div>
